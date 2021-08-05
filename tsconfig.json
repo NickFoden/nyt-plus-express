@@ -5,6 +5,7 @@
       "rootDir": ".",
       "outDir": "./dist",
       "esModuleInterop": true,
+      "resolveJsonModule": true,
       "strict": true
     },
     "include": ["*.ts", "src/**/*"],

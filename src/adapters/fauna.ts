@@ -7,29 +7,63 @@ const getAllVideos = async () => {
   try {
     const ret = await client.query(
         q.Map(
-            q.Paginate(q.Match(q.Index("all-videos"))),
+            q.Paginate(q.Match(q.Index("all_videos"))),
             q.Lambda("X", q.Get(q.Var("X"))),
         ),
     );
-    const final: {
-      id: string;
-      collection: string;
-      name: string;
-      url: string;
-    }[] = [];
+    // @ts-expect-error
+    const final = [];
     // @ts-expect-error
     ret.data.forEach(
-        (V: { ref: { id: string }; data: { url: string; name: string } }) => {
+        // @ts-expect-error
+        (V) => {
           final.push({ id: V.ref.id, collection: "videos", ...V.data });
         },
     );
+    // @ts-expect-error
     return final;
   } catch (err) {
     return console.error(err);
   }
 };
 
-export { getAllVideos, q };
+const getCategoryOfVideos = async () => {
+  try {
+    const ret = await client.query(
+        q.Map(
+            q.Paginate(q.Match(q.Index("all_videos"))),
+            q.Lambda("X", q.Get(q.Var("X"))),
+        ),
+    );
+    // @ts-expect-error
+    const final = [];
+    // @ts-expect-error
+    ret.data.forEach(
+        // @ts-expect-error
+        (V) => {
+          final.push({ id: V.ref.id, collection: "videos", ...V.data });
+        },
+    );
+    // @ts-expect-error
+    return final;
+  } catch (err) {
+    return console.error(err);
+  }
+};
+
+// @ts-expect-error
+const addSingleVideo = async (data) => {
+  try {
+    const ret = await client.query(
+        q.Create(q.Collection("videos"), { data }),
+    );
+    return ret;
+  } catch (err) {
+    return console.error(err);
+  }
+};
+
+export { addSingleVideo, getAllVideos, getCategoryOfVideos, q };
 
 export default client;
 
