@@ -12,6 +12,7 @@ const typeDefs = gql`
   }
 
   type NYTVideo {
+    id: String
     category: String
     cursor: String
     byline:String
